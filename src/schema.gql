@@ -8,6 +8,13 @@ type Todo {
   done: Boolean!
 }
 
+"""Todo quick aggregations"""
+type AggregationsType {
+  total: Int!
+  pending: Int!
+  completed: Int!
+}
+
 type Query {
   """Retorna 'Hola Mundo'"""
   helloWorld: String!
@@ -15,13 +22,21 @@ type Query {
 
   """Devuelve un númeror random de 0 a 10"""
   randomFromZero(to: Int): Int!
-  todos: [Todo!]!
+  todos(
+    """Return todos done or not done"""
+    status: Boolean
+  ): [Todo!]!
   todoById(id: Float!): Todo!
+  totalTodos: Int!
+  completedTodos: Int!
+  pendingTodos: Int!
+  aggregations: AggregationsType!
 }
 
 type Mutation {
   createTodo(createTodoInput: CreateTodoInput!): Todo!
   updateTodo(updateTodoInput: UpdateTodoInput!): Todo!
+  deleteTodo(id: Float!): Todo!
 }
 
 input CreateTodoInput {
